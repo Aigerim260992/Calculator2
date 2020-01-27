@@ -18,24 +18,17 @@ Button button;
         setContentView(R.layout.activity_second);
         textView = findViewById(R.id.textView);
         button = findViewById(R.id.buttonX);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondActivity.this,MainActivity.class);
-                startActivityForResult(intent,1);
+                startActivity(new Intent(SecondActivity.this,MainActivity.class));
             }
         });
 
+    }
+
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==RESULT_OK){
-            String str = data.getStringExtra("result");
-            textView.setText(str);
-
-        }
-    }
-}

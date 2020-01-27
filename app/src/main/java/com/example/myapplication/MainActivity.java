@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     TextView textView;
+    private SendResult actionSender;
 
     Double firstValue;
     Double secondValue;
@@ -24,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textView);
-        Intent intent = getIntent();
+change_btn_fragment();
+change_btn_history_fragment();
 
     }
 
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText("");
                     break;
                 }
-            case R.id.button_clear:
+            case R.id.clear:
                 textView.setText("");
                 break;
         }
@@ -123,14 +128,37 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                Intent intent1 = new Intent();
-                intent1.putExtra("result", result.toString());
-                setResult(RESULT_OK,intent1);
-                finish();
+
             default:
                 break;
 
         }
 
     }
+
+    public void sendValue(SendResult actionSend){
+        this.actionSender = actionSend;
+    }
+
+
+    public void sendInHistory(View view) {
+        String answer = textView.getText().toString();
+        actionSender.send(answer);
+
+    }
+
+    public void change_btn_fragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.container, new ButtonFragment());
+        transaction.commit();
+    }
+
+    public void change_btn_history_fragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.containerForH, new HistoryFragment());
+        transaction.commit();
+    }
 }
+
