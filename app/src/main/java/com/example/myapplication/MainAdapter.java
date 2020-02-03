@@ -11,8 +11,11 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<ViewHolder> {
     ArrayList<String> list;
+
+
     public MainAdapter(){
         list = new ArrayList<>();
+        list.add("Result");
     }
 
     @NonNull
@@ -26,7 +29,6 @@ public class MainAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setText(list.get(position));
-
     }
 
     @Override
@@ -36,6 +38,5 @@ public class MainAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void addText(String text){
         list.add(text);
         notifyDataSetChanged();
-
     }
 }

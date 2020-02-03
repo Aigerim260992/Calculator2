@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
     TextView textview;
+
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         textview = itemView.findViewById(R.id.tv_holder);
     }
-    public void setText(String text){
+
+    public void setText(String text) {
         textview.setText(text);
     }
 }

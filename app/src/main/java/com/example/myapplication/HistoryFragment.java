@@ -9,57 +9,64 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment implements SendResult {
+public class HistoryFragment extends Fragment {
 
     RecyclerView recyclerView;
     MainAdapter adapter;
-    String getAnswer;
+    Button back, show;
+
+    ArrayList<String> list = new ArrayList<>();
 
     public HistoryFragment () {
-        // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            ((MainActivity) Objects.requireNonNull(getActivity())).sendValue(new SendResult() {
-                @Override
-                public void send(String text) {
-                    getAnswer = text;
-                    if (getAnswer != null) {
-                        adapter.addText(getAnswer);
-
-                    }
-                }
-            });}
-
         return inflater.inflate(R.layout.fragment_history, container, false);
-    }
 
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        show = view.findViewById(R.id.button_show);
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAll();
+            }
+        });
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new MainAdapter();
         recyclerView.setAdapter(adapter);
+        back = view.findViewById(R.id.button_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ForRecycle listener = (ForRecycle) getActivity();
+                listener.back();
+            }
+        });
     }
-
-    @Override
-    public void send(String text) {
-        if(text != null){
-            String getAnswer = text;
+    public void showAll() {
+        list = getArguments().getStringArrayList("key");
+        for (int i = 0; i < list.size(); i++) {
+            adapter.addText(list.get(i));
+            Log.d("get", "onClick: " + list);
         }
     }
 }
+
+
+
